@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_id'])) {
         <img src="icons/books.jpg" class="card-img" alt="Books" />
         <div class="card-text">
           <h4>View Available Books</h4>
-          <p>Browse and borrow books from our library.</p>
+          <p>Browse available books and make a reservation.</p>
         </div>
         <a class="select-btn" href="book_list.php">Select</a>
       </div>
@@ -41,7 +41,7 @@ if (!isset($_SESSION['user_id'])) {
         <img src="icons/history.jpg" class="card-img" alt="History" />
         <div class="card-text">
           <h4>View Borrowing History</h4>
-          <p>See your past and current borrowings.</p>
+          <p>Check books you've reserved or borrowed.</p>
         </div>
         <a class="select-btn" href="my_bookings.php">Select</a>
       </div>
