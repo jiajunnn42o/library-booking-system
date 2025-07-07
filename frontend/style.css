@@ -1,16 +1,118 @@
 body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+  background: url("library-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  min-width: 1000px;
+  min-height: 600px;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-form {
-  background: #fff;
-  padding: 15px;
-  border: 1px solid #ccc;
-  width: 300px;
+
+.login-container {
+  width: 350px;
+  background-color: white;
+  padding: 40px 30px 30px 30px;   /* ✅ 上下 padding 缩小 */
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
-input, button {
+
+
+h2 {
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   width: 100%;
-  margin: 5px 0;
-  padding: 8px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 10px 0px;
+  font-size: 14px;
+  outline: none;
+  background-color: transparent;
+  transition: border-color 0.3s;
+  text-align: left;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+input:focus {
+  border-bottom-color: rgb(255, 202, 137); 
+}
+
+
+
+input:focus {
+  border-bottom-color: rgb(255, 202, 137);
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: rgb(255, 202, 137);
+  border: none;
+  border-radius: 6px;
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 25px;        /* ✅ 往下移 */
+  transition: opacity 0.2s;
+  text-align: center;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+.signup-link {
+  margin-top: 45px;   /* ✅ 增加距离 */
+  font-size: 13px;
+  color: #666;
+}
+
+.signup-link a {
+  color: rgb(255, 150, 21);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+.login-links {
+  margin-top: 35px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+/* 统一链接样式 */
+.login-links a {
+  color: rgb(255, 150, 21);     /* 焦糖棕 */
+  text-decoration: none;      /* 去除下划线 */
+  font-weight: bold;
+}
+
+.login-links a:hover {
+  text-decoration: underline; /* 悬停时显示下划线 */
 }

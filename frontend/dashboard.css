@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+}
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+}
+
+.dashboard-left {
+  width: 50%;
+  background: url('library-bg.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.dashboard-right {
+  width: 50%;
+  background: #fffaf5;
+  padding: 50px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.logo {
+  width: 350px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.welcome-text {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.section-title {
+  margin: 20px 0 30px;
+  font-size: 20px;
+  color: #666;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.option-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin: 55px auto;
+  max-width: 600px;
+  background-color: #fffefb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.2s;
+}
+
+.card-img {
+  width: 75px;                     /* ↑ 更大图片 */
+  height: 75px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.card-text {
+  flex: 1;
+  text-align: left;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.card-text h4 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: bold;
+  color: #333;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.card-text p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #666;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.select-btn {
+  background: rgb(255, 202, 137);
+  color: #303030;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 20px;
+  transition: background 0.3s;
+  white-space: nowrap;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.select-btn:hover {
+  background: rgb(255, 220, 178);
+}
