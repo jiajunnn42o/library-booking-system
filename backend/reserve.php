@@ -14,7 +14,6 @@ if (!isset($_POST['book_id'])) {
 $user_id = $_SESSION['user_id'];
 $book_id = intval($_POST['book_id']);
 
-// 🔒 检查当前用户是否已预约该书且未归还
 $check_user_sql = "SELECT * FROM borrow_records WHERE user_id = ? AND book_id = ? AND status = 'borrowed'";
 $check_user_stmt = $conn->prepare($check_user_sql);
 $check_user_stmt->bind_param("ii", $user_id, $book_id);
@@ -39,9 +38,11 @@ if ($book_result->num_rows > 0) {
 }
 $check_book_stmt->close();
 
-$sql = "INSERT INTO borrow_records (user_id, book_id) VALUES (?, ?)";
+$due_date = date('Y-m-d', strtotime('+5 days'));
+
+$sql = "INSERT INTO borrow_records (user_id, book_id, due_date) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $user_id, $book_id);
+$stmt->bind_param("iis", $user_id, $book_id, $due_date);
 
 if ($stmt->execute()) {
   header("Location: ../frontend/book_list.php?reserved=success");

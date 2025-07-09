@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once("db_connect.php");
 
 $email = $_POST['email'];
@@ -18,9 +17,16 @@ if ($result->num_rows === 1) {
   if (password_verify($password, $user['password'])) {
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['name'] = $user['name'];
+    $_SESSION['role'] = $user['role']; 
 
-    header("Location: ../frontend/index.php");
+
+    if ($user['role'] === 'admin') {
+      header("Location: ../frontend/admin_dashboard.php");
+    } else {
+      header("Location: ../frontend/index.php");
+    }
     exit();
+
   } else {
     header("Location: ../frontend/login_fail.html");
     exit();

@@ -8,12 +8,13 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
+
 $sql = "
-  SELECT b.title, br.borrow_date, br.return_date, br.status 
+  SELECT br.id, b.title, br.borrow_date, br.due_date, br.return_date, br.status 
   FROM borrow_records br
   JOIN books b ON br.book_id = b.id
   WHERE br.user_id = ?
-  ORDER BY br.borrow_date DESC
+  ORDER BY br.id ASC
 ";
 
 $stmt = $conn->prepare($sql);
@@ -30,6 +31,14 @@ $result = $stmt->get_result();
   <link rel="stylesheet" href="book_list.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
 </head>
+<?php if (isset($_GET['returned']) && $_GET['returned'] === 'success'): ?>
+  <div class="toast toast-success">Book returned successfully!</div>
+  <script>
+    setTimeout(() => {
+      document.querySelector('.toast').style.display = 'none';
+    }, 3000);
+  </script>
+<?php endif; ?>
 <body>
   <div class="book-page">
     <div class="page-header">
@@ -44,44 +53,43 @@ $result = $stmt->get_result();
       </div>
     </div>
 
-<table class="borrowing-table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Borrow Date</th>
-      <th>Return Date</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php if ($result->num_rows > 0): ?>
-      <?php while ($row = $result->fetch_assoc()): ?>
+    <table class="borrowing-table">
+      <thead>
         <tr>
-          <td><?php echo htmlspecialchars($row['title']); ?></td>
-          <td><?php echo htmlspecialchars($row['borrow_date']); ?></td>
-          <td>
-            <?php echo $row['return_date'] ? htmlspecialchars($row['return_date']) : '-'; ?>
-          </td>
-          <td class="status">
-            <?php
-              $status = $row['status'];
-              if ($status == 'borrowed') echo 'Borrowed';
-              elseif ($status == 'returned') echo 'Returned';
-              elseif ($status == 'overdue') echo 'Overdue';
-              else echo htmlspecialchars($status);
-            ?>
-          </td>
+          <th>Title</th>
+          <th>Borrow Date</th>
+          <th>Due Date</th>
+          <th>Return Date</th>
+          <th>Status</th>
         </tr>
-      <?php endwhile; ?>
-    <?php else: ?>
-      <tr>
-        <td colspan="4" style="padding: 15px; text-align: center;">You haven't reserved any books yet.</td>
-      </tr>
-    <?php endif; ?>
-  </tbody>
-</table>
-
-
+      </thead>
+      <tbody>
+        <?php if ($result->num_rows > 0): ?>
+          <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+              <td><?= htmlspecialchars($row['title']) ?></td>
+              <td><?= htmlspecialchars($row['borrow_date']) ?></td>
+              <td><?= $row['due_date'] ? htmlspecialchars($row['due_date']) : '-' ?></td>
+              <td><?= $row['return_date'] ? htmlspecialchars($row['return_date']) : '-' ?></td>
+              <td>
+                <?php if ($row['status'] === 'borrowed'): ?>
+                  <form action="../backend/return_book.php" method="POST">
+                    <input type="hidden" name="borrow_id" value="<?= $row['id'] ?>">
+                    <button type="submit" class="return-btn">Return</button>
+                  </form>
+                <?php else: ?>
+                  <span class="status-text"><?= htmlspecialchars($row['status']) ?></span>
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endwhile; ?>
+        <?php else: ?>
+          <tr>
+            <td colspan="5" style="padding: 15px; text-align: center;">You haven't reserved any books yet.</td>
+          </tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
   </div>
 </body>
 </html>

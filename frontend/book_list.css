@@ -196,3 +196,23 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+.return-btn {
+  padding: 8px 22px;
+  background: rgb(255, 202, 137);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 15px;
+  color: #333;
+  transition: background 0.3s;
+}
+
+.return-btn:hover {
+  background: rgb(255, 220, 178);
+}
+
