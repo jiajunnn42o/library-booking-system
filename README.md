@@ -32,48 +32,6 @@ In this iteration, an **admin role** is introduced to manage the system via a de
 
 ---
 
-### File Structure & Updates (Since Iteration 2)
-LIBRARY-BOOKING-SYSTEM/
-├── backend/
-│   ├── add_book.php            # Admin: Adds new book to the system
-│   ├── delete_book.php         # Admin: Deletes book from the system
-│   ├── db_connect.php          # Handles database connection
-│   ├── login.php               # Processes user/admin login
-│   ├── logout.php              # Handles session logout
-│   ├── register.php            # Processes new user registration
-│   ├── reserve.php             # Handles book reservation
-│   └── return_book.php         # Handles return logic for borrowed books
-│
-├── database/
-│   └── schema.sql              # Updated schema with users, books, borrow_records
-│
-├── frontend/
-│   ├── books/                  # Folder for uploaded book cover images
-│   ├── icons/
-│   │   ├── books.jpg           # Book icon
-│   │   ├── history.jpg         # Borrowing history icon
-│   │   └── logout.jpg          # Logout icon
-│   │
-│   ├── admin_dashboard.php     # Admin panel homepage
-│   ├── book_list.php           # Displays available books to users
-│   ├── book_list.css           # Styles for book listing pages
-│   ├── dashboard.css           # Styling for dashboard layout
-│   ├── email_exist.html        # Page shown if email is already registered
-│   ├── index.php               # Default landing page after login
-│   ├── login.html              # User/Admin login form
-│   ├── login_fail.html         # Login failure notification page
-│   ├── manage_books.php        # Admin CRUD page for managing books
-│   ├── my_bookings.php         # User's borrow history with return button
-│   ├── register.html           # New user registration form
-│   ├── library-bg.jpg          # Background image for UI
-│   ├── school-logo.png         # School/brand logo
-│   └── style.css               # Global CSS for all pages
-│
-├── .gitattributes              # Git configuration for text encoding
-└── README.md                   # Project documentation and instructions
-
----
-
 ### To test
 1. Go to register.html and register a new account
 2. Login via login.html
