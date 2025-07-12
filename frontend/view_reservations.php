@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   exit();
 }
 
+$updateOverdue = "UPDATE borrow_records 
+                  SET status = 'overdue' 
+                  WHERE status = 'borrowed' AND due_date < CURDATE()";
+$conn->query($updateOverdue);
+
 $sql = "SELECT br.id, u.name AS user_name, u.email, b.title AS book_title, b.author, br.borrow_date, br.due_date, br.return_date, br.status
         FROM borrow_records br
         JOIN users u ON br.user_id = u.id
@@ -19,12 +24,17 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>All Reservations</title>
   <link rel="stylesheet" href="book_list.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+  <style>
+    .status-overdue {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <div class="book-page">
@@ -63,9 +73,15 @@ $result = $conn->query($sql);
             <td><?= htmlspecialchars($row['book_title']) ?></td>
             <td><?= htmlspecialchars($row['author']) ?></td>
             <td><?= htmlspecialchars($row['borrow_date']) ?></td>
-            <td><?= htmlspecialchars($row['due_date'] ?? '-') ?></td>
-            <td><?= htmlspecialchars($row['return_date'] ?? '-') ?></td>
-            <td class="status"><?= htmlspecialchars($row['status']) ?></td>
+            <td><?= $row['due_date'] ?? '-' ?></td>
+            <td><?= $row['return_date'] ?? '-' ?></td>
+            <td>
+              <?php if ($row['status'] === 'overdue'): ?>
+                <span class="status-overdue">Overdue</span>
+              <?php else: ?>
+                <?= htmlspecialchars($row['status']) ?>
+              <?php endif; ?>
+            </td>
           </tr>
         <?php endwhile; ?>
       </tbody>

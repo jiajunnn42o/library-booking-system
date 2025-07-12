@@ -9,6 +9,14 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+$overdue_sql = "UPDATE borrow_records 
+                SET status = 'overdue' 
+                WHERE user_id = ? AND status = 'borrowed' AND due_date < CURDATE()";
+$overdue_stmt = $conn->prepare($overdue_sql);
+$overdue_stmt->bind_param("i", $user_id);
+$overdue_stmt->execute();
+$overdue_stmt->close();
+
 $sql = "
   SELECT br.id, b.title, br.borrow_date, br.due_date, br.return_date, br.status 
   FROM borrow_records br
@@ -31,6 +39,7 @@ $result = $stmt->get_result();
   <link rel="stylesheet" href="book_list.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
 </head>
+
 <?php if (isset($_GET['returned']) && $_GET['returned'] === 'success'): ?>
   <div class="toast toast-success">Book returned successfully!</div>
   <script>
@@ -39,6 +48,7 @@ $result = $stmt->get_result();
     }, 3000);
   </script>
 <?php endif; ?>
+
 <body>
   <div class="book-page">
     <div class="page-header">
@@ -77,6 +87,8 @@ $result = $stmt->get_result();
                     <input type="hidden" name="borrow_id" value="<?= $row['id'] ?>">
                     <button type="submit" class="return-btn">Return</button>
                   </form>
+                <?php elseif ($row['status'] === 'overdue'): ?>
+                  <span class="status-text" style="color: red; ">Overdue</span>
                 <?php else: ?>
                   <span class="status-text"><?= htmlspecialchars($row['status']) ?></span>
                 <?php endif; ?>

@@ -157,7 +157,11 @@ $result = $conn->query("SELECT * FROM books");
         <td><?= htmlspecialchars($row['title']) ?></td>
         <td><?= htmlspecialchars($row['author']) ?></td>
         <td><?= htmlspecialchars($row['subject']) ?></td>
-        <td><a href="../backend/delete_book.php?id=<?= $row['id'] ?>" class="delete-link" onclick="return confirm('Confirm delete this book?')">Delete</a></td>
+        <td>
+          <a href="edit_book.php?id=<?= $row['id'] ?>" class="submit-btn" style="margin-bottom: 8px; display: inline-block;">Edit</a>
+          <br>
+          <a href="../backend/delete_book.php?id=<?= $row['id'] ?>" class="delete-link" onclick="return confirm('Confirm delete this book?')">Delete</a>
+        </td>
       </tr>
       <?php endwhile; ?>
     </table>
