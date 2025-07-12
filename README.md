@@ -1,23 +1,53 @@
-# Library-Book-Borrowing-System
-This is a web-based application developed for the BAI21113 Software Engineering course project (May 2025 Semester). The system allows students to register, log in, browse a book catalog, borrow and return books, and track their borrowing history. Admin users can manage book records, track overdue items, and view all borrowing activities.
+# Library Booking System
+## Iteration 1 – User Authentication & Basic Layout
 
-## Features
-- Student registration and login
-- Book catalog browsing
-- Borrow and return system
-- Admin book management
-- Overdue tracking
+This iteration focuses on implementing secure user registration and login functionality, 
+with layout styling for the login and registration pages.
 
-## Technologies Used
-- Frontend: HTML, CSS, JavaScript
-- Backend: PHP
-- Database: MySQL
-- Version Control: Git & GitHub
-- Project Management: Trello (Scrum methodology)
+### Features Implemented
+- User registration with email and student ID
+- Password hashing using PHP's `password_hash`
+- Duplicate email/student ID detection
+- Login system with session handling
+- Role-based redirection (user/admin)
+- Styled login and registration pages
 
-## Team Roles (Scrum)
-- Scrum Master: [Wong Jia Jun]
-- Product Owner: []
-- Developers: []
+### File Structure Definition
+LIBRARY-BOOKING-SYSTEM/
+├── backend/
+│   ├── db_connect.php        # Handles database connection
+│   ├── login.php             # Processes user login
+│   ├── logout.php            # Handles user logout
+│   └── register.php          # Processes user registration
+│
+├── database/
+│   └── schema.sql            # SQL script for setting up initial database schema
+│
+├── frontend/
+│   ├── icons/
+│   │   ├── books.jpg         # Icon for books
+│   │   ├── history.jpg       # Icon for borrowing history
+│   │   ├── logout.jpg        # Icon for logout
+│   │   ├── library-bg.jpg    # Background image
+│   │   └── school-logo.png   # School logo
+│   │
+│   ├── dashboard.css         # Styles for the dashboard page
+│   ├── email_exist.html      # Shown when email is already registered
+│   ├── index.php             # Homepage after login (dashboard)
+│   ├── login.html            # User login form
+│   ├── login_fail.html       # Login failure page
+│   ├── register.html         # User registration form
+│   └── style.css             # Global styles for login and registration
+│
+├── .gitattributes            # Git configuration file
+└── README.md                 # Project overview and instructions
 
-This project is managed using the Scrum Agile framework over 3 Sprints. Each sprint focuses on specific core functionalities and ends with a review and retrospective.
+### To test:
+1. Run XAMPP, open phpMyAdmin and import the `library` database.
+2. Access `login.html` through `localhost/library-booking-system/frontend/login.html`
+3. Try registering and logging in with valid credentials.
+
+### Next Iteration Preview
+- Book catalog display by subject
+- Reservation logic
+- Prevent duplicate reservations
