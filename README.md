@@ -1,48 +1,67 @@
-# Library Booking System  
-## Iteration 3 – Admin Panel & Book Management
+## Iteration 4 – Edit Book and Overdue Functionality
 
-In this iteration, an **admin role** is introduced to manage the system via a dedicated dashboard. The admin can add, delete, and view all books and reservations. This separates user and admin privileges effectively and prepares the system for real-world scalability.
+### New Features Implemented
 
----
+#### Admin Edit Book Feature
+Admin users can now update book information:
 
-### Features Implemented
+- Title  
+- Author  
+- Subject  
+- Cover image (optional replacement)  
 
-- **Admin Authentication & Role Control**
-  - Admin is redirected to `admin_dashboard.php` upon login
-  - Role is determined by the `role` column in the `users` table
+Other enhancements:
 
-- **Admin Dashboard (`admin_dashboard.php`)**
-  - Provides navigation to:
-    - `Manage Books`
-    - `View All Reservations`
-    - `Logout`
+- Form is styled to match the `manage_books.php` layout  
+- Preview of current book cover is displayed  
+- Upon successful update, a floating toast message appears  
 
-- **Manage Books (`manage_books.php`)**
-  - View all books in a styled table
-  - Add new book (with cover image)
-  - Delete existing book
-  - Form includes:
-    - Title, Author, Subject, Cover Image Upload
-  - Reuses `book_list.css` for consistent UI
-  - Floating success message after book added or deleted
+#### Overdue Status Functionality
+The system automatically updates the status of borrowed books to **overdue** if:
 
-- **View All Reservations (`view_reservation.php`)**
-  - Shows a full table of all borrow records
-  - Columns: Book Title, Borrower Name, Borrow Date, Due Date, Return Date, Status
+- The current date is later than the `due_date`
+- The current status is still `borrowed`
+
+Overdue status is clearly indicated in:
+
+- `my_bookings.php` – student borrowing history  
+- `view_reservations.php` – admin reservation view  
 
 ---
 
-### To test
-1. Go to register.html and register a new account
-2. Login via login.html
-3. If successful, homepage loads with buttons and welcome message
-4. Logout and verify session is cleared
+### Files Affected or Added
+
+| File Path                      | Description                                    |
+|-------------------------------|------------------------------------------------|
+| `frontend/edit_book.php`      | Interface for admin to edit book details       |
+| `backend/update_book.php`     | Backend logic to update book information       |
+| `frontend/my_bookings.php`    | Overdue status logic added for students        |
+| `frontend/view_reservations.php` | Admin reservation list with overdue check |
+| `frontend/book_list.css`      | Updated styles for form layout & indicators    |
 
 ---
 
-### Next Iteration Preview
-- Add book editing functionality in the admin dashboard
-- Implement overdue status handling
-- Track total borrow count per book
-- Enable book search or filtering by subject
-- Enhance responsive UI styling
+###  How to Test
+
+1. Log in as admin and navigate to **Manage Books**.
+2. Click **Edit** next to any book entry.
+3. Update the fields (title, author, subject, or cover image).
+4. Confirm:
+   - Book updates correctly
+   - Success toast message appears
+
+To test **overdue functionality**:
+
+1. Manually set `due_date` in the past for a record in `borrow_records` table.
+2. Ensure status is still set to `borrowed`.
+3. Open `my_bookings.php` or `view_reservations.php` and confirm the book is marked as **Overdue**.
+
+---
+
+### Notes
+
+- `due_date` remains 5 days after reservation.
+- Book borrowing/returning workflow is unchanged from previous iterations.
+- Future improvements may include:
+  - Email reminders for overdue books
+  - Automatic fine system for late returns
