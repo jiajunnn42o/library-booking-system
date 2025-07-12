@@ -14,7 +14,6 @@ if (!isset($_POST['book_id'])) {
 $user_id = $_SESSION['user_id'];
 $book_id = intval($_POST['book_id']);
 
-// 🔒 检查当前用户是否已预约该书且未归还
 $check_user_sql = "SELECT * FROM borrow_records WHERE user_id = ? AND book_id = ? AND status = 'borrowed'";
 $check_user_stmt = $conn->prepare($check_user_sql);
 $check_user_stmt->bind_param("ii", $user_id, $book_id);
