@@ -1,5 +1,11 @@
 <?php
-require_once("db_connect.php");
+session_start();
+require_once '../classes/Database.php';
+require_once '../classes/Book.php';
+
+$db = new Database();
+$conn = $db->getConnection();
+$book = new Book($conn);
 
 if (!isset($_POST['id'])) {
   die("Book ID is missing.");
@@ -10,38 +16,23 @@ $title = $_POST['title'];
 $author = $_POST['author'];
 $subject = $_POST['subject'];
 
-$cover_image = "";
-$stmt = $conn->prepare("SELECT cover_image FROM books WHERE id = ?");
-$stmt->bind_param("i", $book_id);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($result->num_rows > 0) {
-  $cover_image = $result->fetch_assoc()['cover_image'];
-}
-$stmt->close();
-
+$cover_image = $book->getCoverImage($book_id);
 
 if (!empty($_FILES['cover']['name'])) {
   $upload_dir = '../frontend/books/';
   $image_name = basename($_FILES['cover']['name']);
   $target_path = $upload_dir . $image_name;
 
-
   if (move_uploaded_file($_FILES['cover']['tmp_name'], $target_path)) {
     $cover_image = 'books/' . $image_name;
   }
 }
 
-$update_sql = "UPDATE books SET title = ?, author = ?, subject = ?, cover_image = ? WHERE id = ?";
-$update_stmt = $conn->prepare($update_sql);
-$update_stmt->bind_param("ssssi", $title, $author, $subject, $cover_image, $book_id);
+$success = $book->updateBook($book_id, $title, $author, $subject, $cover_image);
 
-if ($update_stmt->execute()) {
+if ($success) {
   header("Location: ../frontend/edit_book.php?id=$book_id&updated=success");
 } else {
   header("Location: ../frontend/edit_book.php?id=$book_id&updated=fail");
 }
-
-$update_stmt->close();
-$conn->close();
 ?>

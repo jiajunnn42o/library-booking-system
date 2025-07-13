@@ -38,21 +38,31 @@ while ($row = $result->fetch_assoc()) {
       </div>
     </div>
 
-    <?php if (isset($_GET['reserved']) && $_GET['reserved'] === 'success'): ?>
-      <div class="toast toast-success">Book reserved successfully!</div>
-      <script>
-        setTimeout(() => {
-          document.querySelector('.toast').style.display = 'none';
-        }, 3000);
-      </script>
-    <?php elseif (isset($_GET['reserved']) && $_GET['reserved'] === 'exists'): ?>
-      <div class="toast toast-error">You’ve already reserved this book.</div>
-      <script>
-        setTimeout(() => {
-          document.querySelector('.toast').style.display = 'none';
-        }, 3000);
-      </script>
-    <?php endif; ?>
+<?php if (isset($_GET['reserved']) && $_GET['reserved'] === 'success'): ?>
+  <div class="toast toast-success">Book reserved successfully!</div>
+  <script>
+    setTimeout(() => {
+      document.querySelector('.toast').style.display = 'none';
+    }, 3000);
+  </script>
+
+<?php elseif (isset($_GET['reserved']) && $_GET['reserved'] === 'exists'): ?>
+  <div class="toast toast-error">You’ve already reserved this book.</div>
+  <script>
+    setTimeout(() => {
+      document.querySelector('.toast').style.display = 'none';
+    }, 3000);
+  </script>
+
+<?php elseif (isset($_GET['reserved']) && $_GET['reserved'] === 'unavailable'): ?>
+  <div class="toast toast-error">This book has already been reserved by another user.</div>
+  <script>
+    setTimeout(() => {
+      document.querySelector('.toast').style.display = 'none';
+    }, 3000);
+  </script>
+<?php endif; ?>
+
 
     <?php foreach ($books_by_subject as $subject => $books): ?>
       <div class="subject-section">

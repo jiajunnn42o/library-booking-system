@@ -1,24 +1,20 @@
 <?php
 session_start();
-require_once("../backend/db_connect.php");
+require_once '../classes/Database.php';
+require_once '../classes/BorrowRecord.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   header("Location: login.html");
   exit();
 }
 
-$updateOverdue = "UPDATE borrow_records 
-                  SET status = 'overdue' 
-                  WHERE status = 'borrowed' AND due_date < CURDATE()";
-$conn->query($updateOverdue);
+$db = new Database();
+$conn = $db->getConnection();
+$record = new BorrowRecord($conn);
 
-$sql = "SELECT br.id, u.name AS user_name, u.email, b.title AS book_title, b.author, br.borrow_date, br.due_date, br.return_date, br.status
-        FROM borrow_records br
-        JOIN users u ON br.user_id = u.id
-        JOIN books b ON br.book_id = b.id
-        ORDER BY br.borrow_date DESC";
+$record->updateAllOverdueStatus();
 
-$result = $conn->query($sql);
+$records = $record->getAllRecords();
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +49,6 @@ $result = $conn->query($sql);
     <table class="borrowing-table">
       <thead>
         <tr>
-          <th>ID</th>
           <th>User</th>
           <th>Email</th>
           <th>Book Title</th>
@@ -65,9 +60,8 @@ $result = $conn->query($sql);
         </tr>
       </thead>
       <tbody>
-        <?php while ($row = $result->fetch_assoc()): ?>
+        <?php foreach ($records as $row): ?>
           <tr>
-            <td><?= $row['id'] ?></td>
             <td><?= htmlspecialchars($row['user_name']) ?></td>
             <td><?= htmlspecialchars($row['email']) ?></td>
             <td><?= htmlspecialchars($row['book_title']) ?></td>
@@ -76,14 +70,23 @@ $result = $conn->query($sql);
             <td><?= $row['due_date'] ?? '-' ?></td>
             <td><?= $row['return_date'] ?? '-' ?></td>
             <td>
-              <?php if ($row['status'] === 'overdue'): ?>
-                <span class="status-overdue">Overdue</span>
-              <?php else: ?>
-                <?= htmlspecialchars($row['status']) ?>
-              <?php endif; ?>
+            <?php
+              $status = $row['status'];
+              $due_date = $row['due_date'];
+              $return_date = $row['return_date'];
+              $isLateReturn = $status === 'returned' && !empty($due_date) && !empty($return_date) && $return_date > $due_date;
+            ?>
+
+            <?php if ($status === 'overdue'): ?>
+              <span class="status-overdue">Overdue</span>
+            <?php elseif ($isLateReturn): ?>
+              <span style="color: orange;">Returned (Late)</span>
+            <?php else: ?>
+              <span class="status-text"><?= ucfirst($status) ?></span>
+            <?php endif; ?>
             </td>
           </tr>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
       </tbody>
     </table>
   </div>

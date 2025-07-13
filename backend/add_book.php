@@ -1,5 +1,10 @@
 <?php
-require_once("db_connect.php");
+require_once '../classes/Database.php';
+require_once '../classes/Book.php';
+
+$db = new Database();
+$conn = $db->getConnection();
+$book = new Book($conn);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $title = trim($_POST['title']);
@@ -27,11 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (move_uploaded_file($_FILES['cover']['tmp_name'], $targetPath)) {
     $coverImagePath = 'books/' . $filename;
 
-    $sql = "INSERT INTO books (title, author, subject, cover_image) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $title, $author, $subject, $coverImagePath);
-
-    if ($stmt->execute()) {
+    if ($book->addBook($title, $author, $subject, $coverImagePath)) {
       header("Location: ../frontend/manage_books.php?added=success");
       exit();
     } else {
@@ -46,4 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header("Location: ../frontend/manage_books.php");
   exit();
 }
-?>
