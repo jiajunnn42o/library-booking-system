@@ -8,18 +8,21 @@ CREATE TABLE IF NOT EXISTS users (
   student_id VARCHAR(50) NOT NULL UNIQUE,
   email VARCHAR(100) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
-  role ENUM('student', 'admin') DEFAULT 'student', 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  role ENUM('student', 'admin') NULL DEFAULT 'student',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
 CREATE TABLE IF NOT EXISTS books (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT(11) NOT NULL AUTO_INCREMENT,
   title VARCHAR(255) NOT NULL,
   author VARCHAR(100) NOT NULL,
-  total_copies INT DEFAULT 1,       
-  available_copies INT DEFAULT 1,   
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  cover_image VARCHAR(255) DEFAULT NULL,
+  total_copies INT(11) DEFAULT 1,
+  available_copies INT(11) DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  subject VARCHAR(100) DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
 
@@ -27,9 +30,9 @@ CREATE TABLE IF NOT EXISTS borrow_records (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   book_id INT NOT NULL,
-  borrow_date DATE DEFAULT CURRENT_DATE,
-  due_date DATE,                         
-  return_date DATE,
+  borrow_date DATE DEFAULT CURDATE(),
+  due_date DATE DEFAULT NULL,
+  return_date DATE DEFAULT NULL,
   status ENUM('borrowed', 'returned', 'overdue') DEFAULT 'borrowed',
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
