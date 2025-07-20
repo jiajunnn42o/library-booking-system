@@ -1,67 +1,72 @@
-## Iteration 4 – Edit Book and Overdue Functionality
+# Library Booking System (Final Version)
 
-### New Features Implemented
-
-#### Admin Edit Book Feature
-Admin users can now update book information:
-
-- Title  
-- Author  
-- Subject  
-- Cover image (optional replacement)  
-
-Other enhancements:
-
-- Form is styled to match the `manage_books.php` layout  
-- Preview of current book cover is displayed  
-- Upon successful update, a floating toast message appears  
-
-#### Overdue Status Functionality
-The system automatically updates the status of borrowed books to **overdue** if:
-
-- The current date is later than the `due_date`
-- The current status is still `borrowed`
-
-Overdue status is clearly indicated in:
-
-- `my_bookings.php` – student borrowing history  
-- `view_reservations.php` – admin reservation view  
+A PHP-based web application that allows users to reserve and manage library books. The system includes user and admin functionalities, reservation tracking, return handling, and overdue book detection.
 
 ---
 
-### Files Affected or Added
+### Version
 
-| File Path                      | Description                                    |
-|-------------------------------|------------------------------------------------|
-| `frontend/edit_book.php`      | Interface for admin to edit book details       |
-| `backend/update_book.php`     | Backend logic to update book information       |
-| `frontend/my_bookings.php`    | Overdue status logic added for students        |
-| `frontend/view_reservations.php` | Admin reservation list with overdue check |
-| `frontend/book_list.css`      | Updated styles for form layout & indicators    |
-
----
-
-###  How to Test
-
-1. Log in as admin and navigate to **Manage Books**.
-2. Click **Edit** next to any book entry.
-3. Update the fields (title, author, subject, or cover image).
-4. Confirm:
-   - Book updates correctly
-   - Success toast message appears
-
-To test **overdue functionality**:
-
-1. Manually set `due_date` in the past for a record in `borrow_records` table.
-2. Ensure status is still set to `borrowed`.
-3. Open `my_bookings.php` or `view_reservations.php` and confirm the book is marked as **Overdue**.
+- Current Release: **v1.0.0**
+- Tag History:
+  - `v1.0`: Iteration 1 completed
+  - `v2.0`: Iteration 2 completed
+  - `v3.0`: Iteration 3 completed
+  - `v4.0`: Iteration 4 completed
+  - `v1.0.0`: Final version tag
 
 ---
 
-### Notes
+### Features
 
-- `due_date` remains 5 days after reservation.
-- Book borrowing/returning workflow is unchanged from previous iterations.
-- Future improvements may include:
-  - Email reminders for overdue books
-  - Automatic fine system for late returns
+#### User Functions
+- Register and login system
+- View available books categorized by subject
+- Reserve books (one copy per user)
+- View borrowing history with:
+  - Borrow date
+  - Due date (5 days after reservation)
+  - Return date
+  - **Overdue detection** (automatically updates status)
+- Return book feature
+
+#### Admin Functions
+- Login to admin dashboard
+- Add new books (including uploading cover image)
+- Delete books
+- Edit book info and update cover
+- View all reservation records by all users (with overdue status)
+
+---
+
+### Installation
+
+1. Clone this repo and place it in your XAMPP `htdocs` folder:
+   ```bash
+   git clone https://github.com/yourusername/library-booking-system.git
+2. Import the schema.sql into your MySQL using phpMyAdmin.
+3. Configure database in backend/db_connect.php:
+`$conn = new mysqli("localhost", "root", "", "library");`
+4. Run your app via: http://localhost/library-booking-system/frontend/login.html
+
+---
+
+### Database Schema Highlights
+
+- `users` – stores student/admin info and roles
+- `books` – stores book details and cover path
+- `borrow_records` – tracks each borrow event with status, return, and due dates
+
+---
+
+### Tested Browsers
+- Chrome
+- Edge
+- Firefox
+
+---
+
+### Contributors
+- Wong Jia Jun
+- Duncan Lim Hao Yang
+- Govinash A/L Murugan 
+- Kesn Kanagasaba 
